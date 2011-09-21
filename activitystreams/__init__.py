@@ -37,12 +37,6 @@ class Activity(object):
             'generator': self.generator,
             'icon_url': self.icon_url
         }
-#        for d in datetimes:
-#            if d in activity_dict.keys() and activity_dict[d]:
-#                activity_dict[d] = rfc3339(activity_dict[d])
-#        for c in classes:
-#            if c in activity_dict.keys() and activity_dict[c]:
-#                activity_dict[c] = activity_dict[c].to_json()
         return jsonify(activity_dict)
 
 class Object(object):
@@ -127,12 +121,6 @@ class Object(object):
             for obj in self.attached_objects:
                 attachments.append(obj.to_json())
             object_dict['attachments'] = attachments
-#        for d in datetimes:
-#            if d in object_dict.keys() and object_dict[d]:
-#                object_dict[d] = rfc3339(object_dict[d])
-#        for c in classes:
-#            if c in object_dict.keys() and object_dict[c]:
-#                object_dict[c] = object_dict[c].to_json()
         return jsonify(object_dict)
 
 
@@ -196,6 +184,3 @@ def jsonify(dictionary):
             dictionary[k] = None
     return dictionary
     
-
-
-
