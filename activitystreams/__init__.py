@@ -1,4 +1,4 @@
-
+from rfc3339 import rfc3339
 
 class Activity(object):
     actor = None
@@ -25,6 +25,27 @@ class Activity(object):
             self.links = links
         else:
             self.links = []
+            
+    def to_json(self):
+        classes = ['actor', 'generator', 'object', 'provider', 'target']
+        datetimes = ['published', 'updated']
+        activity_dict = {
+            'actor': self.actor,
+            'object': self.object,
+            'target': self.target,
+            'verb': self.verb,
+            'published': self.time,
+            'service_provider': self.service_provider,
+            'generator': self.generator,
+            'icon_url': self.icon_url
+        }
+#        for d in datetimes:
+#            if d in activity_dict.keys() and activity_dict[d]:
+#                activity_dict[d] = rfc3339(activity_dict[d])
+#        for c in classes:
+#            if c in activity_dict.keys() and activity_dict[c]:
+#                activity_dict[c] = activity_dict[c].to_json()
+        return jsonify(activity_dict)
 
 class Object(object):
     id = None
@@ -85,6 +106,38 @@ class Object(object):
             self.links = links
         else:
             self.links = []
+        
+    def to_json(self):
+        classes = ['author', 'image']
+        datetimes = ['published', 'updated']
+        object_dict = {
+            'id': self.id,
+            'name': self.name,
+            'url': self.url,
+            'object_type': self.object_type,
+            'summary': self.summary,
+            'image': self.image,
+            'attachments': None,
+            #'in_reply_to_object': self.in_reply_to_object,
+            #'reply_objects': self.reply_objects,
+            #'reaction_activities': self.reaction_activites,
+            #'action_links': self.action_links,
+            'upstream_duplicate_ids': self.upstream_duplicate_ids,
+            'downstream_duplicate_ids': self.downstream_duplicate_ids
+            #'links': self.links,
+        }
+        if self.attached_objects:
+            attachments = []
+            for obj in self.attached_objects:
+                attachments.append(obj.to_json())
+            object_dict['attachments'] = attachments
+#        for d in datetimes:
+#            if d in object_dict.keys() and object_dict[d]:
+#                object_dict[d] = rfc3339(object_dict[d])
+#        for c in classes:
+#            if c in object_dict.keys() and object_dict[c]:
+#                object_dict[c] = object_dict[c].to_json()
+        return jsonify(object_dict)
 
 
 class MediaLink(object):
@@ -100,6 +153,16 @@ class MediaLink(object):
         self.width = width
         self.height = height
         self.duration = duration
+        
+    def to_json(self):
+        medialink_dict = {
+            'url': self.url,
+            'media_type': self.media_type,
+            'width': self.width, 
+            'height': self.height,
+            'duration': self.duration 
+        }
+        return medialink_dict
 
 
 class ActionLink(object):
@@ -122,6 +185,21 @@ class Link(object):
         self.rel = rel
 
 
+def jsonify(dictionary):
+    classes = ['actor', 'generator', 'object', 'provider', 'target', 'author'
+                'image' ]
+    datetimes = ['published', 'updated']
+    for d in datetimes:
+        if d in dictionary.keys() and dictionary[d]:
+            dictionary[d] = rfc3339(dictionary[d])
+    for c in classes:
+        if c in dictionary.keys() and dictionary[c]:
+            dictionary[c] = dictionary[c].to_json()
+    for k,v in dictionary.items():
+        if v == []:
+            dictionary[k] = None
+    return dictionary
+    
 
 
 
