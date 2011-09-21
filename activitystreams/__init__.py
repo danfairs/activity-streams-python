@@ -27,8 +27,6 @@ class Activity(object):
             self.links = []
             
     def to_json(self):
-        classes = ['actor', 'generator', 'object', 'provider', 'target']
-        datetimes = ['published', 'updated']
         activity_dict = {
             'actor': self.actor,
             'object': self.object,
@@ -108,8 +106,6 @@ class Object(object):
             self.links = []
         
     def to_json(self):
-        classes = ['author', 'image']
-        datetimes = ['published', 'updated']
         object_dict = {
             'id': self.id,
             'name': self.name,
