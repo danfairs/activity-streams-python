@@ -124,6 +124,82 @@ class Object(object):
         return jsonify(object_dict)
 
 
+class TicketObject(Object):
+    '''
+    Proof of concept implemetation. Subject to changes.
+    '''
+    ticket_key = None
+    ticket_summary = None
+    ticket_type = None
+    ticket_status = None
+    ticket_created = None
+    ticket_closed = None
+    ticket_description = None
+    ticket_scope = None
+    ticket_impact = None
+    ticket_problem_start = None
+    ticket_problem_end = None
+    ticket_maintenance_window_start = None
+    ticket_maintenance_window_end = None
+    ticket_update = None
+    ticket_affected_organisation = None
+    
+    def __init__(self, id=None, name=None, url=None, object_type=None, 
+                 summary=None, image=None, in_reply_to_object=None,
+                 attached_objects=None, reply_objects=None, 
+                 reaction_activities=None, action_links=None,
+                 upstream_duplicate_ids=None, downstream_duplicate_ids=None,
+                 links=None, ticket_key=None, ticket_summary=None,
+                 ticket_type=None, ticket_status=None, ticket_created=None,
+                 ticket_closed=None, ticket_description=None, ticket_scope=None,
+                 ticket_impact=None, ticket_problem_start=None,
+                 ticket_problem_end=None, ticket_maintenance_window_start=None,
+                 ticket_maintenance_window_end=None, ticket_update=None,
+                 ticket_affected_organisations=None):
+        super(TicketObject, self).__init__(id, name, url, object_type, summary, image, in_reply_to_object, attached_objects, reply_objects, reaction_activities, action_links, upstream_duplicate_ids, downstream_duplicate_ids, links)
+        self.ticket_key = ticket_key
+        self.ticket_summary = ticket_summary
+        self.ticket_type = ticket_type
+        self.ticket_status = ticket_status
+        self.ticket_created = ticket_created
+        self.ticket_closed = ticket_closed
+        self.ticket_description = ticket_description
+        self.ticket_scope = ticket_scope
+        self.ticket_impact = ticket_impact
+        self.ticket_problem_start = ticket_problem_start
+        self.ticket_problem_end = ticket_problem_end
+        self.ticket_maintenance_window_start = ticket_maintenance_window_start
+        self.ticket_maintenance_window_end = ticket_maintenance_window_end
+        self.ticket_update = ticket_update
+        self.ticket_affected_organisations = ticket_affected_organisations
+    
+    def to_json(self):
+        object_dict = super(TicketObject, self)
+        object_dict['ticket_key'] = self.ticket_key
+        object_dict['ticket_summary'] = self.ticket_summary
+        object_dict['ticket_type'] = self.ticket_type
+        object_dict['ticket_status'] = self.ticket_status
+        if self.ticket_created:
+            object_dict['ticket_created'] = rfc3339(self.ticket_created)
+        if self.ticket_closed:
+            object_dict['ticket_closed'] = rfc3339(self.ticket_closed)
+        object_dict['ticket_description'] = self.ticket_description
+        object_dict['ticket_scope'] = self.ticket_scope
+        object_dict['ticket_impact'] = self.ticket_impact
+        if self.ticket_problem_start:
+            object_dict['ticket_problem_start'] = rfc3339(self.ticket_problem_start)
+        if self.ticket_problem_end:
+            object_dict['ticket_problem_end'] = rfc3339(self.ticket_problem_end)
+        if self.ticket_maintenance_window_start:
+            object_dict['ticket_maintenance_window_start'] = rfc3339(self.ticket_maintenance_window_start)
+        if self.ticket_maintenance_window_end:
+            object_dict['ticket_maintenance_window_end'] = rfc3339(self.ticket_maintenance_window_end)
+        object_dict['ticket_update'] = self.ticket_update
+        object_dict['ticket_affected_organisations'] = []
+        for obj in self.ticket_affected_organisations:
+            object_dict['ticket_affected_organisations'].append(obj) 
+ 
+
 class MediaLink(object):
     url = None
     media_type = None
