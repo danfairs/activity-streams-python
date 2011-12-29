@@ -45,6 +45,7 @@ class Object(object):
     url = None
     object_type = None
     summary = None
+    content = None
     image = None
     in_reply_to_object = None
     attached_objects = None
@@ -55,12 +56,13 @@ class Object(object):
     downstream_duplicate_ids = None
     links = None
 
-    def __init__(self, id=None, name=None, url=None, object_type=None, summary=None, image=None, in_reply_to_object=None, attached_objects=None, reply_objects=None, reaction_activities=None, action_links=None, upstream_duplicate_ids=None, downstream_duplicate_ids=None, links=None):
+    def __init__(self, id=None, name=None, url=None, object_type=None, summary=None, content=None, image=None, in_reply_to_object=None, attached_objects=None, reply_objects=None, reaction_activities=None, action_links=None, upstream_duplicate_ids=None, downstream_duplicate_ids=None, links=None):
         self.id = id
         self.name = name
         self.url = url
         self.object_type = object_type
         self.summary = summary
+        self.content = content
         self.image = image
         self.in_reply_to_object = in_reply_to_object
 
@@ -102,10 +104,11 @@ class Object(object):
     def to_json(self):
         object_dict = {
             'id': self.id,
-            'name': self.name,
+            'displayName': self.name,
             'url': self.url,
             'object_type': self.object_type,
             'summary': self.summary,
+            'content': self.content,
             'image': self.image,
             'attachments': None,
             #'in_reply_to_object': self.in_reply_to_object,
@@ -252,7 +255,7 @@ class Link(object):
 
 def jsonify(dictionary):
     classes = ['actor', 'generator', 'object', 'provider', 'target', 'author'
-                'image' ]
+                'image']
     datetimes = ['published', 'updated']
     for d in datetimes:
         if d in dictionary.keys() and dictionary[d]:
