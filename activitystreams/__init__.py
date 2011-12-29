@@ -172,9 +172,14 @@ class TicketObject(Object):
         self.ticket_maintenance_window_end = ticket_maintenance_window_end
         self.ticket_update = ticket_update
         self.ticket_affected_organisations = ticket_affected_organisations
+        
+        if ticket_affected_organisations is not None:
+            self.ticket_affected_organisations = ticket_affected_organisations
+        else:
+            self.ticket_affected_organisations = []
     
     def to_json(self):
-        object_dict = super(TicketObject, self)
+        object_dict = super(TicketObject, self).to_json()
         object_dict['ticket_key'] = self.ticket_key
         object_dict['ticket_summary'] = self.ticket_summary
         object_dict['ticket_type'] = self.ticket_type
@@ -198,7 +203,7 @@ class TicketObject(Object):
         object_dict['ticket_affected_organisations'] = []
         for obj in self.ticket_affected_organisations:
             object_dict['ticket_affected_organisations'].append(obj) 
- 
+        return jsonify(object_dict)
 
 class MediaLink(object):
     url = None
